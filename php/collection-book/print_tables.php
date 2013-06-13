@@ -5,13 +5,16 @@
 	
    function echo_tabl($obj, $find, $page = 0)
    {      
+     include "config.php";
       $db = mysql_connect( $db_host, $db_username, $db_userpass);
    	mysql_select_db( $db_namedb, $db);
       mysql_set_charset("utf8");
      	
      	$start_record = 0;
 		$end_record = 100;
-		$result = mysql_query( $obj->createSQL($find, true) );
+    // echo $obj->createSQL($find, true);
+    $query = $obj->createSQL($find, true);
+    $result = mysql_query( $obj->createSQL($find, true) ) or die("incorrect sql: '".$query."'");
 		$count_all = mysql_result($result, 0, "count_rec");
 		   		   
      	if( $page >= 0 )
@@ -87,14 +90,14 @@
 			echo NOT_FOUND_RECORDS."<br><br>";
    }
    
-   function echo_addform($obj, $find)
+   function echo_addform($obj)
    {
   	
    	$arr = $obj->getColumns_Insert();
   	
+    $find = "";
    	echo "<br/><hr/><br/>
       <form action='index.php?".$obj->getName()."=&insert=&find=".$find."' name='insert_".$obj->getName()."' method='POST' enctype='multipart/form-data'>
-      <input type='hidden' name='".$name."' value=''/>
       <table width='50%'>";
       // var_dump($arr);
       
@@ -237,7 +240,7 @@
    
    function echo_title_page($name = "")
    {
-	   echo "Project Security";
+	   echo TITLE_SITE;
    	if($name != "")
    		echo " (".$name.")";
    	
@@ -257,7 +260,10 @@
 			else
 				echo $obj->getCaption()." | ";
 		};
- 
+	};
+	
+	function echo_find($objs, $name, $find)
+	{
       echo "<br>
       <br>
       <form action='index.php' name='form_search' method='GET'>
@@ -271,5 +277,34 @@
 
       </table>
       </form>";
+	};
+	
+	function echo_filter($obj, $name, $page)
+	{
+	   $arr = $obj->getFilter();
+	   	
+	   echo "<br/><hr/><br/>
+      <form action='index.php? method='GET' enctype='multipart/form-data'>
+      <input type='hidden' name='".$obj->getName()."' value=''/>
+      <table width='50%'>";
+      
+      foreach ($arr as $caption => $name) {
+      
+         $value = "";
+         if(isset($_GET[$name]))
+            $value = $_GET[$name];
+      	echo "
+	      <tr> 
+		      <td align='right' width=50%>".$caption."</td>
+		      <td align='left' width=50%>".$obj->createInputTag($name, $value)."</td>
+	      </tr>
+	      	";           
+         };     
+      echo "</table>
+      
+      <input type='submit' name='' value='OK'/>
+      \r\n";
+	   
+	   return "";
 	};
 ?>

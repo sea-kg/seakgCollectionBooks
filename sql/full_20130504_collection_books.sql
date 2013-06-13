@@ -32,9 +32,11 @@ CREATE TABLE IF NOT EXISTS `cb000_publishers` (
 -- Структура таблицы `places`
 --
 
-CREATE TABLE IF NOT EXISTS `cb001_places` (
+CREATE TABLE IF NOT EXISTS `col_book_places` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `type` varchar(255) NOT NULL,
+  `room` varchar(255) NOT NULL,
+  `cupboard` varchar(255) NOT NULL,
+  `shelf` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 

@@ -1,5 +1,12 @@
 <?php
 
+define("TITLE_SITE", "Колелкция книг");
+define("PLACES", "Размещение");
+define("ROOM", "Комната");
+define("CUPBOARD", "Шкаф");
+define("SHELF", "Полка");
+
+
 define("PERSONAL", "Персона");
 define("PERSONALS", "Персонал");
 define("TYPE_OF_OFFENSE", "Тип преступления");

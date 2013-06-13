@@ -6,7 +6,7 @@
 
 <html>
 <head>
-<title> Project Security </title>
+<title> <? echo TITLE_SITE; ?> </title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf8">
 
 	<style type="text/css">

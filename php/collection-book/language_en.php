@@ -1,5 +1,12 @@
 <?php
 
+define("TITLE_SITE", "Collection-books");
+define("PLACES", "Places");
+define("ROOM", "Room");
+define("CUPBOARD", "Cupboard");
+define("SHELF", "Shelf");
+
+
 define("PERSONAL", "Personal");
 define("PERSONALS", "Personals");
 define("TYPE_OF_OFFENSE", "Type of Offence");
@@ -8,6 +15,8 @@ define("CRIMINAL", "Criminal");
 define("CRIMINALS", "Criminals");
 define("LOG_OF_OFFENSES", "Log of Offences");
 define("PARTICIPANTS_OF_CRIMINAL", "Participants of Criminal");
+
+
 
 define("THE_SENIOR_PERSON_ON_DUTY", "The senior person on duty");
 define("FULL_NAME", "Full name");
