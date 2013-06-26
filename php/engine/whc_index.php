@@ -11,7 +11,7 @@
 			
 <html>
 <head>
-<title> <? echo TITLE_SITE; ?> </title>
+<title>'.TITLE_SITE.'</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf8">
 
 	<style type="text/css">
@@ -20,7 +20,7 @@
 		}
 	</style>	    	
 
-<link rel="stylesheet" href="css/ui-lightness/jquery-ui-1.10.3.custom.css" />
+<link rel="stylesheet" href="../engine/css/ui-lightness/jquery-ui-1.10.3.custom.css" />
 <script type="text/javascript" src="js/jquery-1.9.1.js"></script>
 <script type="text/javascript" src="js/jquery-ui-1.10.3.custom.js"></script>			
 			
