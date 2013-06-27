@@ -10,14 +10,11 @@
 website for home collections: <br><br>
 
 <?
-	$files = scandir("./");
-	
-	foreach($files as $file)
-	{
-		$pos = strpos($file, "collection-");
-		if(  $pos !== false && is_dir($file))
-			echo "<a href='$file/index.php'>".$file."<br>";
-	}
+	include_once "config.php";
+	$arr = getItems();
+
+	foreach($arr as $caption => $index_php)
+		echo "<a href='$index_php'>".$caption."<br>"	
 ?>
 </body>
 </html>

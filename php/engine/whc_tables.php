@@ -1,13 +1,12 @@
 <?   
-   include_once "basepage.php";	
-	include_once "config.php";
-	include_once "bbcode.php";
+   include_once "whc_basepage.php";	
+	include_once "whc_bbcode.php";
 	
    function echo_tabl($obj, $find, $page = 0)
    {      
-     include "config.php";
-      $db = mysql_connect( $db_host, $db_username, $db_userpass);
-   	mysql_select_db( $db_namedb, $db);
+      // include "config.php";
+      //$db = mysql_connect( $db_host, $db_username, $db_userpass);
+   	//mysql_select_db( $db_namedb, $db);
       mysql_set_charset("utf8");
      	
      	$start_record = 0;
@@ -23,12 +22,6 @@
 		   $end_record = 10;
 		   //	echo "[start: $start_record count: $end_record ]";
 		};
-		
-	   $query = $obj->createSQL($find)." ORDER BY t0.id DESC LIMIT $start_record,$end_record;";
-	 
-	   
-		echo "<!-- ".$query." -->";
-	   $result = mysql_query( $query );
 	   
 	   $color = "";
 	   $color1 = "#adffb9";
@@ -55,34 +48,40 @@
 			echo "
 			<hr>  ";
 	   }
-	   echo "    
-	   <table cellspacing='0' cellpadding='10' >";
-		
-		
-      $arr = $obj->getColumns();
+
+		$arr = $obj->getColumns();
+		$query = $obj->createSQL($find)." ORDER BY t0.".$arr[IDENTIFICATOR]." DESC LIMIT $start_record,$end_record;";
+	 
+	   
+		echo "<!-- ".$query." -->";
+	   $result = mysql_query( $query ) 
+			or die('incorrect: "'.$query.'"');
       
-      echo "
-      <tr bgcolor='$color'>";
+	   echo "    
+	   <table cellspacing='0' cellpadding='10' >
+	      <tr bgcolor='$color'>";
       
       foreach ($arr as $caption => $name) {
-         echo "<td>".$caption."</td>\r\n";
+         echo "<td><center>".$caption."</center></td>\r\n";
       };
-	
-      for( $i = 0; $i < mysql_num_rows($result); $i++ )
-      {
-	      if( $i % 2 == 0 ) $color = $color1; else $color = $color2;
-         $id = mysql_result($result, $i, "id");
-         /*echo "
-	      <tr class='notfirst' onclick=\"document.location = 'index.php?".$obj->getName()."=&view=".$id."';\" bgcolor='$color'>\r\n";*/
-         echo "
-	      <tr class='notfirst' onclick=\"".$obj->onClick_Table($id)."\" bgcolor='$color'>\r\n";	      
-	      foreach ($arr as $caption => $name) {
-	         $data = mysql_result($result, $i, $name);
-	         $data = $obj->convertToPrintData($name, $data);
+
+		$bColor = true;
+		while ($row = mysql_fetch_assoc($result)) {
+			$bColor = !$bColor;
+			if( $bColor ) $color = $color1; else $color = $color2;
+
+			echo "
+		      <tr class='notfirst' onclick=\"".$obj->onClick_Table($id)."\"
+					bgcolor='$color'>\r\n";	
+
+			foreach ($arr as $caption => $name) {
+	         $data = $row[$name];
+	         $data = $obj->convertToPrintData($name, $data, $row);
             echo "<td><center>".$data."</center></td>\r\n";
-         };          
-	      echo "</tr>\r\n";
-      }
+         };
+
+			echo "</tr>\r\n";
+		}
       
       echo "</table><br/>";
 

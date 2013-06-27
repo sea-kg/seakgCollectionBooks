@@ -1,12 +1,17 @@
-<? error_reporting(E_ALL); ?>
-<?		
+<?	
+	echo "+(1)";
+	error_reporting(E_ALL);	
+	echo '(db_host): '.$db_host.'<br>';
+	echo "+(2)";
    class whc_index
    {	
-		function exec($file_config, $create_objects)
-		{
-			error_reporting(E_ALL);
+		function exec($config)
+		{	
+		
 			include_once "whc_basepage.php";
-			include_once $file_config;
+			include_once "whc_bbcode.php";
+			include_once "whc_tables.php";
+
 			echo '
 			
 <html>
@@ -61,11 +66,20 @@ function ConfirmDelete(url)
 <body OnLoad="SetCaretAtEnd(document.form_search.find); ">
 <center>
 ';
-		include_once "whc_bbcode.php";
-		include_once "whc_tables.php";
-		
-		$db = mysql_connect( $db_host, $db_username, $db_userpass);
-		mysql_select_db( $db_namedb, $db);
+		$db = mysql_connect( 
+			$config['db']['host'], 
+			$config['db']['username'], 
+			$config['db']['userpass']
+		) 
+		or die(
+				'could not 
+					connecting to mysql: "'
+					.$config['db']['host'].'@'.$config['db']['username'].'"'
+		);
+
+
+		mysql_select_db( $config['db']['dbname'], $db) 
+			or die('could not select database: "'.$config['db']['dbname'].'"');
 		//mysql_set_charset("cp1251");
 		$find = "";
 		$page = 0;
@@ -76,12 +90,12 @@ function ConfirmDelete(url)
 		if( isset($_GET["page"]) )
 			$page = htmlspecialchars($_GET["page"]);
 
-		$objs = $create_objects();
+		$objs = create_objects();
 
 	   if(count($objs) == 0)
 	   {
-		echo SORRY_NOT_FOUND_PAGES;
-		exit(0);
+			echo SORRY_NOT_FOUND_PAGES;
+			exit(0);
 	   };
 
 		$selected_name = "";
@@ -138,8 +152,24 @@ function ConfirmDelete(url)
 		else
 		{	
 			echo_header($objs, $selected_name, $find);
+		
+			if($selected_obj->getType() == "sqltable")
+			{
+			   echo_find($objs, $selected_name, $find);
+			   echo_tabl($selected_obj, $find, $page);
+			   echo_addform($selected_obj);
+			}
+			else if($selected_obj->getType() == "report")
+			{
+			   echo_filter($selected_obj, $find, $page);
+			   $selected_obj->printPage();
+			}
+
+/*
+			echo_header($objs, $selected_name, $find);
 			echo_tabl($selected_obj, $find, $page);
 			echo_addform($selected_obj);
+*/
 		}
 		
 		
@@ -156,6 +186,7 @@ $(document).ready(function(){
 </script>
 </body>
 </html> ';
-		};
+		}
    }
+	echo "+(3)";
 ?>
