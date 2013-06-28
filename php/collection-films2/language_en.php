@@ -20,5 +20,7 @@ define("FILM_GANRE", "Ganre");
 define("FILM_CREATOR", "Director");
 define("FILM_YEAR", "Year");
 define("FILM_TIME", "Full time");
+define("FILM_ACTORS", "Actors");
+define("FILM_DESCRIPTION", "Description");
 
 ?>

@@ -17,7 +17,7 @@ define("FILM_GANRE", "Жанр");
 define("FILM_CREATOR", "Режиссер");
 define("FILM_YEAR", "Год выпуска");
 define("FILM_TIME", "Продолжителность");
-
-
+define("FILM_ACTORS", "Снимались");
+define("FILM_DESCRIPTION", "Описание");
 
 ?>
