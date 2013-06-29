@@ -71,12 +71,12 @@
 			if( $bColor ) $color = $color1; else $color = $color2;
 
 			echo "
-		      <tr class='notfirst' onclick=\"".$obj->onClick_Table($id)."\"
+		      <tr class='notfirst' onclick=\"".$obj->onClick_Table($row)."\"
 					bgcolor='$color'>\r\n";	
 
 			foreach ($arr as $caption => $name) {
 	         $data = $row[$name];
-	         $data = $obj->convertToPrintData($name, $data, $row);
+	         $data = $obj->convertToPrintData($name, $data, $row, "table");
             echo "<td><center>".$data."</center></td>\r\n";
          };
 
@@ -131,7 +131,7 @@
 				
       $result = mysql_query( $query ) or die(INCORRECT_SQL_QUERY." = [".$query."]");
 		  
-		$back = "<a href='index.php?".$obj->getName()."'><img src='images/1367972162_go-next-rtl.png' height=20px/></a>";
+		$back = "<a href='index.php?".$obj->getName()."'><img src='../engine/images/goto_index.png' height=20px/></a>";
 		$rows = mysql_num_rows($result);
 		if($rows == 0)
 		{
@@ -153,31 +153,37 @@
 				</td>
 				<td> | </td>
 				<td>
-					<a onClick=\"ConfirmDelete('"."index.php?".$obj->getName()."=&delete=$id"."');\"><img src='images/1367970998_file_delete.png' width=20px/></a> 
+					<a onClick=\"ConfirmDelete('"."index.php?".$obj->getName()."=&delete=$id"."');\"><img src='../engine/images/remove_record.png' width=20px/></a> 
 				</td>
 				<td> | </td>				
 				<td>
-					<a href='index.php?".$obj->getName()."=&edit=$id'><img src='images/1367971059_file_edit.png' width=20px/></a>
+					<a href='index.php?".$obj->getName()."=&edit=$id'><img src='../engine/images/edit_record.png' width=20px/></a>
 				</td>
 			</tr>
 		</table>";
 		
       echo "
       <hr>      
-      <table cellspacing='0' cellpadding='10' >";      
-      foreach ($arr as $caption => $name) {
-	         
-	         $data = mysql_result($result, 0, $name);
-	         $data = $obj->convertToPrintData($name, $data);
-				echo "
-					<tr bgcolor='$color'>
-				   	<td valign='top'>".$caption."</td>
-				   	<td valign='top'>".$data."</td>
-				   </tr>";
-      };	     
-      echo "</table><br/><hr/>";
-      
-      
+      <table cellspacing='0' cellpadding='10' >";    
+
+		while ($row = mysql_fetch_assoc($result)) {
+			
+
+		   foreach ($arr as $caption => $name) {
+			      
+			      $data = $row[$name];
+			      $data = $obj->convertToPrintData($name, $data, $row, "view");
+					echo "
+						<tr bgcolor='$color'>
+							<td valign='top'>".$caption."</td>
+							<td valign='top'>".$data."</td>
+						</tr>";
+		   };
+
+			echo "</tr>\r\n";
+		}
+  	     
+      echo "</table><br/><hr/>";    
       $obj->echo_view_extended($id);
       
    }
@@ -205,13 +211,12 @@
 			return;
 		}
 		$arr = $obj->getColumns_View();
-		  
-		  
+
 		echo "
 		<table>
 			<tr>
 				<td>
-					<a href='index.php?".$obj->getName()."&view=$id'><img src='images/1367972162_go-next-rtl.png' height=20px/></a> 
+					<a href='index.php?".$obj->getName()."&view=$id' ><img src='../engine/images/goto_index.png' height=20px/></a> 
 				</td>
 			</tr>
 		</table>";
@@ -221,16 +226,27 @@
       <form action='index.php?".$obj->getName()."=&update=$id' id='update_' method='POST' enctype='multipart/form-data'>
       
       <table cellspacing='0' cellpadding='10' >";
-      foreach ($arr as $caption => $name) {
-	         
-	         $data = mysql_result($result, 0, $name);
-//	         $data = $obj->convertToPrintData($name, $data);
-				echo "
+
+
+		while ($row = mysql_fetch_assoc($result)) {
+			
+
+		   foreach ($arr as $caption => $name) {
+			      
+			      $data = $row[$name];
+			      // $data = $obj->convertToPrintData($name, $data, $row, "edit");
+					$data = $obj->createInputTag($name, $data, $row);
+					$data = $data;
+					echo "
 					<tr bgcolor='$color'>
 				   	<td valign='top'>".$caption."</td>
-				   	<td valign='top'>".$obj->createInputTag($name, $data)."</td>
+				   	<td valign='top'>$data</td>
 				   </tr>";
-      };	     
+		   };
+
+			echo "</tr>\r\n";
+		}
+	     
       echo "</table>
       <input type='submit' value='".UPDATE_DATA."'/>
       </form>

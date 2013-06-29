@@ -27,7 +27,7 @@
 
 	function createSQL_View($id)
 	{
-		return "select * from ".$this->getTableName()." t0 where id = $id";
+		return "select * from ".$this->getTableName()." t0 where t0.id_film = $id";
 	}
 
 	function getCaption()
@@ -52,7 +52,6 @@
 			$arr[FILM_DISK] = 'disk';
 			$arr[FILM_POSTER] = 'poster';
       	$arr[FILM_NAME] = 'name_orig';
-			
 			$arr[FILM_COUNTRY] = 'film_country';
 			$arr[FILM_GANRE] = 'ganre';
 			$arr[FILM_CREATOR] = 'creater';
@@ -60,33 +59,45 @@
 			$arr[FILM_TIME] = 'film_time';
 			//$arr[FILM_ACTORS] = 'actors';
 			//$arr[FILM_DESCRIPTION] = 'descript';
-			
+
 			return $arr; 
 		}
 
-		function createInputTag($name, $value = "")
+		function createInputTag($name, $value = "", $row)
 		{
+			$value = htmlentities($value, ENT_QUOTES);
 			if($name == 'id_film')
 				return "<input type=hidden name='$name' value='$value'/>$value";		
 			else if(	$name == 'disk' 
 							|| $name == 'name_orig'
 							|| $name == 'name_ru'
-							/* || $name == 
-							|| $name == 
-							|| $name == 
-							|| $name == 
-							|| $name == 
-							|| $name == */
+							|| $name == 'film_country'
+							|| $name == 'ganre'
+							|| $name == 'creater'
+							|| $name == 'film_year'
+							|| $name == 'film_time'
 				)
 				return "<input type='text' name='$name' value='$value'/>";
+			else if($name == 'actors' || $name == 'descript')
+				return "<textarea name='$name' width='80%' style='margin: 0pt; width: 100%; height: 150px;'>$value</textarea>";
+			else if($name == 'poster' )			
+			{
+				$id_film = $row['id_film'];
+				$old_poster = ($value != "" && $id_film != "") ? "<img src='posters/$id_film/$value' height='200px'/>" : "";
+				return "
+	<input name='$name' value='' size='50%' type='file'/> <br> 
+	<input name='poster_name' value='$value' size='50%' type='hidden'/>
+	$old_poster 
+";
+			}
 			else
 				return I_DONT_KNOW_WHAT_ARE_YOU_WHAT;
 		}
 		
-	function onClick_Table($id)
+	function onClick_Table($row)
 	{
 		return "document.location = 'index.php?".
-			$this->getName()."=&view=".$id."';";
+			$this->getName()."=&view=".$row['id_film']."';";
 	}
     
 
@@ -103,20 +114,24 @@
 		$arr[FILM_TIME] = 'film_time';
 		$arr[FILM_ACTORS] = 'actors';
 		$arr[FILM_DESCRIPTION] = 'descript';
+		// $arr[FILM_POSTER] = 'poster';
+		return $arr;
+	}
+
+	function echo_view_extended($id)
+	{
+
+	}
+
+	function getColumns_View()
+	{
+		$arr = array();
+		$arr[IDENTIFICATOR] = 'id_film';
+		$arr = array_merge($arr, $this->getColumns_Insert());	
 		$arr[FILM_POSTER] = 'poster';
 		return $arr;
 	}
 
-		function echo_view_extended($id)
-		{
-			
-		}
-		
-		function getColumns_View()
-		{
-			return $this->getColumns();
-		}
-		
     function insert()
     {
 			mysql_set_charset("utf8");
@@ -131,8 +146,9 @@
 			$film_time = htmlspecialchars($_POST['film_time']);
 			$actors = htmlspecialchars($_POST['actors']);
 			$descript = htmlspecialchars($_POST['descript']);
-			$poster = htmlspecialchars($_POST['poster']);
+			// $poster = $this->upload_poster("");
 			$table_name = $this->getTableName();
+
 			$query = "insert into $table_name 
 				(disk, name_orig, name_ru, film_country, ganre, creater, 
 					film_year, film_time, actors, descript, poster) 
@@ -145,7 +161,7 @@
 		function delete($id)
 		{
 			mysql_set_charset("utf8");
-			$query = "delete from ".$this->getTableName()." where id = $id";
+			$query = "delete from ".$this->getTableName()." where id_film = $id";
 			$result = mysql_query( $query ) or die(CAN_NOT_DELETE.", query = [".$query."]");
 		}
 		
@@ -153,15 +169,39 @@
 		{
 			mysql_set_charset("utf8");
       
-  		$room = htmlspecialchars($_POST['room']);
-  		$cupboard = htmlspecialchars($_POST['cupboard']);
-  		$shelf = htmlspecialchars($_POST['shelf']);
+  			$disk = addslashes(htmlspecialchars($_POST['disk']));
+			$name_orig = addslashes(htmlspecialchars($_POST['name_orig']));
+			$name_ru = addslashes(htmlspecialchars($_POST['name_ru']));
+			$film_country = addslashes(htmlspecialchars($_POST['film_country']));
+			$ganre = addslashes(htmlspecialchars($_POST['ganre']));
+			$creater = addslashes(htmlspecialchars($_POST['creater']));
+			$film_year = addslashes(htmlspecialchars($_POST['film_year']));
+			$film_time = addslashes(htmlspecialchars($_POST['film_time']));
+			$actors = addslashes(htmlspecialchars($_POST['actors']));
+			$descript = addslashes(htmlspecialchars($_POST['descript']));
+			$poster = addslashes($_POST["poster_name"]);
+			$table_name = $this->getTableName();
 
-			$query = "update ".$this->getTableName()." set room='$room', cupboard = '$cupboard', shelf = '$shelf' where id = $id";
+			$poster = $this->upload_poster($id, $poster);
+
+			$query = "update ".$this->getTableName()." set 
+				disk='$disk',
+				name_orig='$name_orig',
+				name_ru='$name_ru',
+				film_country='$film_country',
+				ganre='$ganre',
+				creater='$creater',
+				film_year='$film_year',
+				film_time='$film_time',
+				actors='$actors',
+				descript='$descript',
+				poster='$poster'
+			where id_film = $id";
+
 			$result = mysql_query( $query ) or die(CAN_NOT_UPDATE.", query = [".$query."]");
 		}
 		
-		function convertToPrintData($name, $data, $row)
+		function convertToPrintData($name, $data, $row, $type_)
 		{
 			if($name == 'id_film')
 				return $data.')';
@@ -170,29 +210,30 @@
 			else if($name == 'name_orig')
 				return $data.' / '.$row['name_ru'];
 			else if($name == 'poster')
-				return '<img src="../../collection-films/images/'.$row['id_film'].'/'.$data.'" height=20px/>';
-
-/*
-[FILM_DISK] = 'disk';
-			$arr[FILM_POSTER] = 'poster';
-      	$arr[NAME_ORIG] = 'name_orig';
-			$arr[NAME_RU] = 'name_ru';
-			$arr[FILM_COUNTRY] = 'film_country';
-			$arr[FILM_GANRE] = 'ganre';
-			$arr[FILM_CREATOR] = 'creater';
-			$arr[FILM_YEAR] = 'film_year';
-			$arr[FILM_TIME] = 'film_time';
-*/
-			
-
-			/*if($name == 'room')
-				return "<img src='images/1371140348_exit.png' height=20px/>".$data;
-			else if($name == 'cupboard')
-  			return "<img src='images/1371140207_cabinet.png' height=20px/>".$data;
-  		else if($name == 'shelf')
-  			return "<img src='images/1371140146_shelf.png' height=20px/>".$data;
-*/
+			{
+				$height = ($type_ == "view") ? "200px" : "40px";
+				return '<img 
+								src="posters/'.$row['id_film'].'/'.$data.'" 
+								height="'.$height.'" />';
+			}
 			return $data;
+		}
+
+		function upload_poster($id_film, $poster_name)
+		{
+			if( strlen($_FILES["poster"]["name"]) > 0 )
+			{
+				mkdir( "posters/$id_film", 0777 );
+
+				$fileto = "posters/$id_film/".$_FILES["poster"]["name"];
+				if( copy( $_FILES["poster"]["tmp_name"], $fileto ) )
+				{
+					$poster = $_FILES["poster"]["name"];
+					return $poster;
+				};
+				//exit;
+			};
+			return $poster_name;
 		}
    }
 ?>
