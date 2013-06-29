@@ -1,12 +1,12 @@
 <?
-	// COLLECTION FILMS
+	// ACCOUT
 	
 	include_once "../config.php";
-
+	
 	// configure connection to database
 	
-	$config['db']['prefix_table'] = 'col_films_';
-	
+	$config['db']['prefix_table'] = 'account_';
+
 	// configure languages
 	$file_language = 'language_en.php';
 	
@@ -15,15 +15,15 @@
 
 	include_once $file_language;
 
+
 	// configure other
 	function create_objects()
 	{
 		$objs = array();
 		
-		include_once "films.php";
-		$films = new films();
-		$objs[$films->getName()] = $films;
-				
+		include_once "account.php";
+		$account = new account();
+		$objs[$account->getName()] = $account;
 		return $objs;
 	};
 ?>

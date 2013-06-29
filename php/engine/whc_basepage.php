@@ -15,14 +15,13 @@
 		if( isset( $_GET[$name] ) ) $m = htmlspecialchars( $_POST[$name] );
 		return $m;
 	};
-
-
+	/*
 	function refreshTo($new_page)
 	{
 		header ("Location: $new_page");
 		exit;
 	};	
-	
+	*/
 	function rus2translit($string)
 	{
 	    $converter = array(
