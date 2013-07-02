@@ -1,5 +1,5 @@
 <?
-	session_start();
+//	session_start();
 	
 	
 	function getFromPost($name)
@@ -92,4 +92,12 @@
 
 		return $str_result; 
 	}
+
+  function errorInJson($msg)
+  {
+    $arr = array();
+    $arr['error'] = $msg;
+    return json_encode($arr);
+  };
+
 ?>

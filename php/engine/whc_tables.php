@@ -1,31 +1,100 @@
 <?   
-   include_once "whc_basepage.php";	
+	include_once "whc_basepage.php";	
 	include_once "whc_bbcode.php";
 	
-   function echo_tabl($obj, $find, $page = 0)
-   {      
-      // include "config.php";
-      //$db = mysql_connect( $db_host, $db_username, $db_userpass);
-   	//mysql_select_db( $db_namedb, $db);
-      mysql_set_charset("utf8");
-     	
-     	$start_record = 0;
-		$end_record = 100;
-    // echo $obj->createSQL($find, true);
-    $query = $obj->createSQL($find, true);
-    $result = mysql_query( $obj->createSQL($find, true) ) or die("incorrect sql: '".$query."'");
+	function echo_tabl_json($obj, $find, $page = 0)
+	{      
+		mysql_set_charset("utf8");
+
+		$json = array();
+		$start_record = 0;
+		$end_record = 10;
+		// echo $obj->createSQL($find, true);
+		$query = $obj->createSQL($find, true);
+		$result = mysql_query( $obj->createSQL($find, true) ) or die(errorInJson("incorrect sql: '".$query."'"));
 		$count_all = mysql_result($result, 0, "count_rec");
-		   		   
+		
      	if( $page >= 0 )
      	{
 		   $start_record = $page * 10;
 		   $end_record = 10;
-		   //	echo "[start: $start_record count: $end_record ]";
+		};
+
+		if( $page >= 0 )
+     	{
+			$json['count_pages'] = $count_all;
+			$count_pages = $count_all / 10;
+
+			for( $i = 0; $i < $count_pages; $i++)
+			{
+				if( $page == $i )
+					$json['current_page'] = $page;
+			};
+	   }
+
+		$arr = $obj->getColumns();
+		$query = $obj->createSQL($find)." ORDER BY t0.".$arr[IDENTIFICATOR]." DESC LIMIT $start_record,$end_record;";
+	 
+		$json['debug']['query'] = $query;
+
+		$result = mysql_query( $query ) 
+			or die(errorInJson('incorrect: "'.$query.'"'));
+		
+		
+		
+		foreach ($arr as $caption => $name) {
+			$json['result']['columns'][$name] = $caption;
+		};
+
+		while ($row = mysql_fetch_assoc($result)) {		
+			
+			$row_values_origin = array();
+			$row_values = array();
+
+			foreach ($arr as $caption => $name) {
+				$data = $row[$name];
+				$row_values_origin[$name] = $data;
+				$data = $obj->convertToPrintData($name, $data, $row, "table");
+				$row_values[$name] = $data;
+			};
+			$json['result']['rows_original_value'][] = $row_values_origin;
+			$json['result']['rows'][] = $row_values;
+		}
+		
+		/*if($count_all == 0 )
+		{
+			echo errorInJson(NOT_FOUND_RECORDS);
+			exit(0);
+		}*/
+		
+		echo  json_encode($json);
+		exit(0);
+	}
+   
+	function echo_tabl($obj, $find, $page = 0)
+	{      
+		// include "config.php";
+		//$db = mysql_connect( $db_host, $db_username, $db_userpass);
+		//mysql_select_db( $db_namedb, $db);
+		mysql_set_charset("utf8");
+
+		$start_record = 0;
+		$end_record = 100;
+		// echo $obj->createSQL($find, true);
+		$query = $obj->createSQL($find, true);
+		$result = mysql_query( $obj->createSQL($find, true) ) or die("incorrect sql: '".$query."'");
+		$count_all = mysql_result($result, 0, "count_rec");
+		   
+		if( $page >= 0 )
+		{
+			$start_record = $page * 10;
+			$end_record = 10;
+			//	echo "[start: $start_record count: $end_record ]";
 		};
 	   
-	   $color = "";
-	   $color1 = "#adffb9";
-	   $color2 = "#fff6ad";
+		$color = "";
+		$color1 = "#adffb9";
+		$color2 = "#fff6ad";
 
 		if( $page >= 0 )
      	{
@@ -47,7 +116,7 @@
 
 			echo "
 			<hr>  ";
-	   }
+		}
 
 		$arr = $obj->getColumns();
 		$query = $obj->createSQL($find)." ORDER BY t0.".$arr[IDENTIFICATOR]." DESC LIMIT $start_record,$end_record;";
@@ -83,9 +152,9 @@
 			echo "</tr>\r\n";
 		}
       
-      echo "</table><br/>";
+		echo "</table><br/>";
 
-      if($count_all == 0 )
+		if($count_all == 0 )
 			echo NOT_FOUND_RECORDS."<br><br>";
    }
    
@@ -122,8 +191,8 @@
    
    function echo_view($obj, $id)
    {      
-      $db = mysql_connect( $db_host, $db_username, $db_userpass);
-   	mysql_select_db( $db_namedb, $db);
+      // $db = mysql_connect( $db_host, $db_username, $db_userpass);
+   	  // mysql_select_db( $db_namedb, $db);
       mysql_set_charset("utf8");
       	      
 		$query = $obj->createSQL_View($id);
@@ -186,6 +255,46 @@
       echo "</table><br/><hr/>";    
       $obj->echo_view_extended($id);
       
+   }
+   
+   function echo_view_json($obj, $id)
+   {      
+		//$db = mysql_connect( $db_host, $db_username, $db_userpass);
+		//mysql_select_db( $db_namedb, $db);
+		mysql_set_charset("utf8");
+      	      
+		$json = array();
+		
+		$query = $obj->createSQL_View($id);
+		$json['debug']['query'] = $query;
+
+		$result = mysql_query( $query ) or die(errorInJson(INCORRECT_SQL_QUERY." = [".$query."]"));
+		
+		$rows = mysql_num_rows($result);
+		if($rows == 0)
+		{
+			echo errorInJson(NOT_FOUND_RECORD_IN_DATABASE);
+			exit(0);
+		}
+		if($rows > 1)
+		{
+			echo errorInJson(FOUND_MORE_THAT_ONE);
+			exit(0);
+		}
+		$arr = $obj->getColumns_View();
+
+		while ($row = mysql_fetch_assoc($result)) {
+
+			foreach ($arr as $caption => $name) {
+				$json['data']['title'][$name] = $caption;
+				$data = $row[$name];
+				$json['data']['value_original'][$name] = $data;
+			    $data = $obj->convertToPrintData($name, $data, $row, "view");
+				$json['data']['value'][$name] = $data;
+		   };
+		}
+		echo json_encode($json);
+		exit(0);
    }
    
    function echo_edit($obj, $id)

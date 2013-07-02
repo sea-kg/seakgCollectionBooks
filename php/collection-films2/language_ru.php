@@ -1,4 +1,5 @@
 <?php
+
 define("TITLE_SITE", "Коллекция фильмов");
 define("FILMS", "Фильмы");
 define("IDENTIFICATOR", "id");

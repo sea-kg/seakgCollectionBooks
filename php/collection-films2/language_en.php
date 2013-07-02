@@ -2,7 +2,6 @@
 
 define("TITLE_SITE", "Collection Films");
 define("FILMS", "Films");
-define("NAME_RU", "Russian name");
 define("IDENTIFICATOR", "id");
 define("FILM_DISK", "Disk");
 define("FILM_POSTER", "Poster");

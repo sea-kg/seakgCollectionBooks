@@ -1,17 +1,9 @@
 <?	
 error_reporting(E_ALL);	
-class whc_index
+class whc_json
 {	
 	function exec($config)
 	{	
-    if( isset($_GET["json"]) )
-    {
-      include_once "whc_json.php";
-      $json = new whc_json();
-      $json->exec($config);
-      exit(0);
-    }
-
 		include_once "whc_basepage.php";
 		include_once "whc_bbcode.php";
 		include_once "whc_tables.php";
@@ -22,18 +14,15 @@ class whc_index
 			$config['db']['userpass']
 		) 
 		or die(
-				'could not 
+        errorInJson('could not 
 					connecting to mysql: "'
-					.$config['db']['host'].'@'.$config['db']['username'].'"'
+					.$config['db']['host'].'@'.$config['db']['username'].'"')				
 		);
 
 		mysql_select_db( $config['db']['dbname'], $db) 
-			or die('could not select database: "'.$config['db']['dbname'].'"');
-			
-			
-		include_once "whc_index_open_base.php";
-		
-			
+			or die(errorInJson('could not select database: "'.$config['db']['dbname'].'"'));
+
+   	
 		//mysql_set_charset("cp1251");
 		$find = "";
 		$page = 0;
@@ -48,7 +37,7 @@ class whc_index
 		
 		if(count($objs) == 0)
 		{
-			echo SORRY_NOT_FOUND_PAGES;
+			echo errorInJson(SORRY_NOT_FOUND_PAGES);
 			exit(0);
 		};
 
@@ -56,6 +45,9 @@ class whc_index
 		$selected_obj = "";
 		$selected_obj_type = "";
 		$fisrt_page = "";
+    $names = array();
+    foreach ($objs as $name => $obj)
+		  $names[$name] = $obj->getCaption();
 
 		foreach ($objs as $name => $obj)
 		{
@@ -72,15 +64,20 @@ class whc_index
 		};
 	
 		if(strlen($selected_name) == 0)
-			refreshTo("index.php?".$fisrt_page);
-		
-		if($selected_obj_type == "simplepage")
+		{
+			echo json_encode($names);
+			exit(0);
+		}
+
+
+		/*if($selected_obj_type == "simplepage")
 		{	
 			include_once "whc_echo_simplepage.php";
 			echo_header($objs, $selected_name, $find);
 			echo_simplepage($selected_obj);
 		}
-		else if( isset($_GET["insert"]) )
+		else 
+		if( isset($_GET["insert"]) )
 		{
 			$selected_obj->insert();
 			refreshTo("index.php?".$selected_obj->getName()."=");
@@ -99,30 +96,33 @@ class whc_index
 			refreshTo("index.php?".$selected_obj->getName()."=");
 			exit(0);
 		}
-		else if( isset($_GET["view"]) )
+		else */
+		
+		if( isset($_GET["view"]) )
 		{
-			echo_title_page(VIEWER);
-			echo_view($selected_obj, $_GET["view"]);
+			// echo_title_page(VIEWER);
+			echo_view_json($selected_obj, $_GET["view"]);
 		}	
-		else if( isset($_GET["edit"]) )
+		/*else if( isset($_GET["edit"]) )
 		{
 			echo_title_page(EDITOR);
 			echo_edit($selected_obj, $_GET["edit"]);
-		}	
+		}*/	
 		else
 		{	
-			echo_header($objs, $selected_name, $find);
+			// echo_header($objs, $selected_name, $find);
 	
 			if($selected_obj->getType() == "sqltable")
 			{
-				echo_find($objs, $selected_name, $find);
-				echo_tabl($selected_obj, $find, $page);
-				echo_addform($selected_obj);
+				echo_tabl_json($selected_obj, $find, $page);
+				// echo_find($objs, $selected_name, $find);
+				// echo_tabl($selected_obj, $find, $page);
+				// echo_addform($selected_obj);
 			}
 			else if($selected_obj->getType() == "report")
 			{
-				echo_filter($selected_obj, $find, $page);
-				$selected_obj->printPage();
+				// echo_filter($selected_obj, $find, $page);
+				// $selected_obj->printPage();
 			}
 
 	/*

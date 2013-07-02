@@ -11,7 +11,7 @@ website for home collections: <br><br>
 
 <?
 	include_once "config.php";
-	$arr = getItems();	
+	$arr = $config['collection'];
 	foreach($arr as $caption => $index_php)
 	{
 		if(file_exists($index_php))

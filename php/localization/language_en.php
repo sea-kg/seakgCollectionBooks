@@ -14,5 +14,6 @@ define("MYACCOUNT", "My account");
 define("YOUR_COLLECTIONS", "Your collections");
 define("EMAIL", "E-mail");
 define("PASSWORD", "Password");
+define("NOT_FOUND_RECORDS", "Not found records");
 
 ?>

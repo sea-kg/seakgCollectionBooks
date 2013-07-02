@@ -13,5 +13,5 @@ define("MYACCOUNT", "Мой профиль");
 define("YOUR_COLLECTIONS", "Ваши коллекции");
 define("EMAIL", "Эл. Почта");
 define("PASSWORD", "Пароль");
-
+define("NOT_FOUND_RECORDS", "Не найдено записей");
 ?>
