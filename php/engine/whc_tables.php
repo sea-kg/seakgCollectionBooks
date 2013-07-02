@@ -67,7 +67,7 @@
 			exit(0);
 		}*/
 		
-		echo  json_encode($json);
+		echo json_encode($json);
 		exit(0);
 	}
    
