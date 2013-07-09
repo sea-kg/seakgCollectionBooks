@@ -188,9 +188,27 @@
       </form>";
    }
    
+   function echo_manager_buttons($buttons)
+   {
+   	echo "\r\n<table><tr>";
+   	$i = 0;
+   	$count = count($buttons);
+	   foreach ($buttons as $html => $name) {
+	   	$i++;
+			echo "<td>".$name."</td>";
+			if($i != $count)
+			  echo "<td> | </td>";
+	   };
+	   echo "\r\n</tr></table>";
+   }
+   
    
    function echo_view($obj, $id)
-   {      
+   {     
+		$whc_security = new whc_security(); 
+      //if($whc_security->isLogged())
+      
+	      
       // $db = mysql_connect( $db_host, $db_username, $db_userpass);
    	  // mysql_select_db( $db_namedb, $db);
       mysql_set_charset("utf8");
@@ -214,22 +232,24 @@
 		}
 		$arr = $obj->getColumns_View();
 		  
-		echo "
-		<table>
-			<tr>
-				<td>
-					".$back."
-				</td>
-				<td> | </td>
-				<td>
-					<a onClick=\"ConfirmDelete('"."index.php?".$obj->getName()."=&delete=$id"."');\"><img src='../engine/images/remove_record.png' width=20px/></a> 
-				</td>
-				<td> | </td>				
-				<td>
-					<a href='index.php?".$obj->getName()."=&edit=$id'><img src='../engine/images/edit_record.png' width=20px/></a>
-				</td>
-			</tr>
-		</table>";
+		
+		$buttons = array();
+		$buttons['back'] = $back;
+		
+		$delete = "";
+		$edit = "";
+		
+		if($whc_security->isLogged())
+		{
+			
+		   $delete = "<a onClick=\"ConfirmDelete('"."index.php?".$obj->getName()."=&delete=$id"."');\"><img src='../engine/images/remove_record.png' width=20px/></a>";
+		   
+  			$buttons['delete'] = $delete;
+		   $edit = "<a href='index.php?".$obj->getName()."=&edit=$id'><img src='../engine/images/edit_record.png' width=20px/></a>";
+  			$buttons['edit'] = $edit;
+		}
+		
+		echo_manager_buttons($buttons);
 		
       echo "
       <hr>      

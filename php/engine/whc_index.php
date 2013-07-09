@@ -56,6 +56,7 @@ class whc_index
 		$selected_obj = "";
 		$selected_obj_type = "";
 		$fisrt_page = "";
+		$whc_security = new whc_security();
 
 		foreach ($objs as $name => $obj)
 		{
@@ -82,20 +83,24 @@ class whc_index
 		}
 		else if( isset($_GET["insert"]) )
 		{
-			$selected_obj->insert();
+			if($whc_security->isLogged())
+			  $selected_obj->insert();
+			
 			refreshTo("index.php?".$selected_obj->getName()."=");
 			exit(0);
 		}
 		else if( isset($_GET["update"]) )
-		{
-			$selected_obj->update($_GET["update"]);
+		{		   	   
+			if($whc_security->isLogged())
+			  $selected_obj->update($_GET["update"]);
 			refreshTo("index.php?".$selected_obj->getName()."=&view=".
 				$_GET["update"]);
 			exit(0);
 		}
 		else if( isset($_GET["delete"]) )
 		{
-			$selected_obj->delete($_GET["delete"]);
+			if($whc_security->isLogged())
+			  $selected_obj->delete($_GET["delete"]);
 			refreshTo("index.php?".$selected_obj->getName()."=");
 			exit(0);
 		}
@@ -106,8 +111,16 @@ class whc_index
 		}	
 		else if( isset($_GET["edit"]) )
 		{
-			echo_title_page(EDITOR);
-			echo_edit($selected_obj, $_GET["edit"]);
+	      if($whc_security->isLogged())
+	      {	
+			  echo_title_page(EDITOR);
+			  echo_edit($selected_obj, $_GET["edit"]);
+			}
+			else
+			{
+				echo_title_page(VIEWER);
+				echo_view($selected_obj, $_GET["view"]);
+			}
 		}	
 		else
 		{	
@@ -117,7 +130,9 @@ class whc_index
 			{
 				echo_find($objs, $selected_name, $find);
 				echo_tabl($selected_obj, $find, $page);
-				echo_addform($selected_obj);
+				
+				if($whc_security->isLogged())
+					echo_addform($selected_obj);
 			}
 			else if($selected_obj->getType() == "report")
 			{

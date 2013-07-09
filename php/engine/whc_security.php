@@ -5,7 +5,7 @@
 	{
 		function login()
 		{
-			if(!$this->isLogged)
+			if(!$this->isLogged())
 			{
 				if(isset($_POST['email']) && isset($_POST['password']))
 				{

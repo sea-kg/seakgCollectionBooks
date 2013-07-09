@@ -47,9 +47,13 @@
 		
   	function getColumns()
 		{
+			$whc_security = new whc_security();
+			
 			$arr = array();
 			$arr[IDENTIFICATOR] = 'id_film';
-			$arr[FILM_DISK] = 'disk';
+			
+			if($whc_security->isLogged())
+				$arr[FILM_DISK] = 'disk';
 			$arr[FILM_POSTER] = 'poster';
       	$arr[FILM_NAME] = 'name_orig';
 			$arr[FILM_COUNTRY] = 'film_country';
@@ -103,8 +107,11 @@
 
 	function getColumns_Insert()
 	{
+		$whc_security = new whc_security();
 		$arr = array();
-		$arr[FILM_DISK] = 'disk';			
+		
+		if($whc_security->isLogged())		
+			$arr[FILM_DISK] = 'disk';
 		$arr[NAME_ORIG] = 'name_orig';
 		$arr[NAME_RU] = 'name_ru';			
 		$arr[FILM_COUNTRY] = 'film_country';
