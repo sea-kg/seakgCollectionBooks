@@ -1,4 +1,5 @@
 *.php~
 *.sh~
 *.sql~
+*.json~
 */scans/*
