@@ -1,0 +1,10 @@
+{	
+	"def_account" : {
+		"username" : {
+			"type" : "edit"
+		},
+		"language" : {
+			"type" : "combobox"
+		}
+	}
+}

@@ -1,35 +1,21 @@
 <?	
 error_reporting(E_ALL);	
 class whc_index
-{	
+{
+	
 	function exec($config)
 	{	
-    if( isset($_GET["json"]) )
-    {
-      include_once "whc_json.php";
-      $json = new whc_json();
-      $json->exec($config);
-      exit(0);
-    }
+		if( isset($_GET["json"]) )
+		{
+			include_once "whc_json.php";
+			$json = new whc_json();
+			$json->exec($config);
+			exit(0);
+		}
 
 		include_once "whc_basepage.php";
 		include_once "whc_bbcode.php";
 		include_once "whc_tables.php";
-
-		$db = mysql_connect( 
-			$config['db']['host'], 
-			$config['db']['username'], 
-			$config['db']['userpass']
-		) 
-		or die(
-				'could not 
-					connecting to mysql: "'
-					.$config['db']['host'].'@'.$config['db']['username'].'"'
-		);
-
-		mysql_select_db( $config['db']['dbname'], $db) 
-			or die('could not select database: "'.$config['db']['dbname'].'"');
-			
 			
 		include_once "whc_index_open_base.php";
 		
@@ -80,6 +66,11 @@ class whc_index
 			include_once "whc_echo_simplepage.php";
 			echo_header($objs, $selected_name, $find);
 			echo_simplepage($selected_obj);
+		}
+		else if($selected_obj_type == "report")
+		{
+			echo_header($objs, $selected_name, $find);
+			$selected_obj->printPage();
 		}
 		else if( isset($_GET["insert"]) )
 		{
@@ -134,12 +125,6 @@ class whc_index
 				if($whc_security->isLogged())
 					echo_addform($selected_obj);
 			}
-			else if($selected_obj->getType() == "report")
-			{
-				echo_filter($selected_obj, $find, $page);
-				$selected_obj->printPage();
-			}
-
 	/*
 			echo_header($objs, $selected_name, $find);
 			echo_tabl($selected_obj, $find, $page);

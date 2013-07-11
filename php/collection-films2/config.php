@@ -24,6 +24,10 @@
 		$films = new films();
 		$objs[$films->getName()] = $films;
 				
+		include_once "generate_zip_archiv.php";
+		$zip = new generate_zip_archiv();
+		$objs[$zip->getName()] = $zip;
+		
 		return $objs;
 	};
 ?>

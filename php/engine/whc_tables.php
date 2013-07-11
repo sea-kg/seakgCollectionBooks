@@ -168,12 +168,16 @@
       <form action='index.php?".$obj->getName()."=&insert=&find=".$find."' name='insert_".$obj->getName()."' method='POST' enctype='multipart/form-data'>
       <table width='50%'>";
       // var_dump($arr);
+
+		$row = array();		      
+      foreach ($arr as $caption => $name)
+        $row[$name] = "";
       
       foreach ($arr as $caption => $name) {
       	echo "
 	      <tr> 
 		      <td align='right' width=50%>".$caption."</td>
-		      <td align='left' width=50%>".$obj->createInputTag($name, "")."</td>
+		      <td align='left' width=50%>".$obj->createInputTag($name, "", $row)."</td>
 	      </tr>
 	      	";           
          };      
@@ -263,7 +267,7 @@
 			      $data = $row[$name];
 			      $data = $obj->convertToPrintData($name, $data, $row, "view");
 					echo "
-						<tr bgcolor='$color'>
+						<tr>
 							<td valign='top'>".$caption."</td>
 							<td valign='top'>".$data."</td>
 						</tr>";
@@ -319,10 +323,14 @@
    
    function echo_edit($obj, $id)
    {
-      $db = mysql_connect( $db_host, $db_username, $db_userpass);
+	   mysql_set_charset("utf8");
+	   
+/*      $db = mysql_connect( $db_host, $db_username, $db_userpass);
    	mysql_select_db( $db_namedb, $db);
+   	
       mysql_set_charset("utf8");
-      	      
+*/
+
 		$query = $obj->createSQL_View($id);
 		echo "<!-- ".$query." -->";
 				
@@ -359,15 +367,14 @@
 
 		while ($row = mysql_fetch_assoc($result)) {
 			
-
 		   foreach ($arr as $caption => $name) {
 			      
 			      $data = $row[$name];
 			      // $data = $obj->convertToPrintData($name, $data, $row, "edit");
 					$data = $obj->createInputTag($name, $data, $row);
-					$data = $data;
+					// $data = $data;
 					echo "
-					<tr bgcolor='$color'>
+					<tr>
 				   	<td valign='top'>".$caption."</td>
 				   	<td valign='top'>$data</td>
 				   </tr>";
@@ -377,7 +384,7 @@
 		}
 	     
       echo "</table>
-      <input type='submit' value='".UPDATE_DATA."'/>
+      <input type='submit' value='".UPDATE_RECORD."'/>
       </form>
       <hr/>";
    }

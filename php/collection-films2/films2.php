@@ -1,59 +1,59 @@
+﻿<? error_reporting(E_ALL); ?>
 <?		
-	class films
-	{          
-		function createSQL($find, $count = false)
-		{
-			$fields = "*";
-			if($count)
-			  $fields = "COUNT(*) as count_rec";
-			return "select ".$fields." from ".$this->getTableName()." t0 
-			where 
-				t0.name_orig like '%$find%' or
-				t0.name_ru like '%$find%' or
-				t0.film_year like '%$find%' or
-				t0.creater like '%$find%' or
-				t0.actors like '%$find%' or
-				t0.descript like '%$find%' or
-				t0.disk like '%$find%' or
-				t0.film_country like '%$find%' or
-				t0.ganre like '%$find%'";
-		}
+   class films
+   {          
+	function createSQL($find, $count = false)
+	{
+		$fields = "*";
+		if($count)
+		  $fields = "COUNT(*) as count_rec";
+		return "select ".$fields." from ".$this->getTableName()." t0 
+		where 
+			t0.name_orig like '%$find%' or
+			t0.name_ru like '%$find%' or
+			t0.film_year like '%$find%' or
+			t0.creater like '%$find%' or
+			t0.actors like '%$find%' or
+			t0.descript like '%$find%' or
+			t0.disk like '%$find%' or
+			t0.film_country like '%$find%' or
+			t0.ganre like '%$find%'";
+	}
 		
-		function getType()
-		{
-			return "sqltable"; 
-		}
+	function getType()
+	{
+		return "sqltable"; 
+	}
 
-		function createSQL_View($id)
-		{
-			return "select * from ".$this->getTableName()." t0 where t0.id_film = $id";
-		}
+	function createSQL_View($id)
+	{
+		return "select * from ".$this->getTableName()." t0 where t0.id_film = $id";
+	}
 
-		function getCaption()
-		{
-			return FILMS;
-		}
+	function getCaption()
+	{
+		return FILMS;
+	}
 
-		function getTableName()
-		{
-			return "list_films"; // $config['db']['prefix_table']."".$this->getName();
-		}
-		 
-		function getName()
-		{
-			return "films";
-		}
+	function getTableName()
+	{
+		return "list_films"; // $config['db']['prefix_table']."".$this->getName();
+	}
+     
+	function getName()
+	{
+		return "films";
+	}
 		
-		function getColumns()
+  	function getColumns()
 		{
 			$whc_security = new whc_security();
 			
 			$arr = array();
 			$arr[IDENTIFICATOR] = 'id_film';
 			
-			if($whc_security->isLogged())			
+			if($whc_security->isLogged())
 				$arr[FILM_DISK] = 'disk';
-			
 			$arr[FILM_POSTER] = 'poster';
       	$arr[FILM_NAME] = 'name_orig';
 			$arr[FILM_COUNTRY] = 'film_country';
@@ -69,8 +69,7 @@
 
 		function createInputTag($name, $value = "", $row)
 		{
-			$value = htmlentities($value, ENT_QUOTES, 'UTF-8');
-			
+			$value = htmlentities($value, ENT_QUOTES);
 			if($name == 'id_film')
 				return "<input type=hidden name='$name' value='$value'/>$value";		
 			else if(	$name == 'disk' 

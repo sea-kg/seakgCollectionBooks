@@ -14,8 +14,10 @@
 	$config['db']['host'] = "localhost";
 	$config['db']['username'] = "phpuser";
 	$config['db']['userpass'] = "phpuser";
-	$config['db']['dbname'] = "collection_films";	
+	$config['db']['dbname'] = "whc_database";	
 
+	$config['db']['link'] = init_database($config);
+	
 	// configure languages
 	$config['lang'] = array();	
 	$config['lang']['Русский'] = 'language_ru.php';

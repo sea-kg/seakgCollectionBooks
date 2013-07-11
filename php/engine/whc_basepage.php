@@ -1,7 +1,4 @@
 <?
-//	session_start();
-	
-	
 	function getFromPost($name)
 	{
 		$m = "";
@@ -15,13 +12,7 @@
 		if( isset( $_GET[$name] ) ) $m = htmlspecialchars( $_POST[$name] );
 		return $m;
 	};
-	/*
-	function refreshTo($new_page)
-	{
-		header ("Location: $new_page");
-		exit;
-	};	
-	*/
+	
 	function rus2translit($string)
 	{
 	    $converter = array(
@@ -56,12 +47,17 @@
 	{ 
 		$str_result = "";
 		$symbols = array('0', '1', '2', '3', '4', '5', '6', '7', 
-			  '8', '9',     'a', 'b', 'c', 'd', 'e',
+			  '8', '9', 'a', 'b', 'c', 'd', 'e',
 			  'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 
-			  'n',     'o', 'p', 'q', 'r', 's', 't', 
-			  'u', 'v', 'w', 'x', 'y', 'z', '_', ' '); 
+			  'n', 'o', 'p', 'q', 'r', 's', 't', 
+			  'u', 'v', 'w', 'x', 'y', 'z', '_', ' ',
+			  'A', 'B', 'C', 'D', 'E',
+			  'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 
+			  'N', 'O', 'P', 'Q', 'R', 'S', 'T', 
+			  'U', 'V', 'W', 'X', 'Y', 'Z'); 
 
-		$str = strtolower(rus2translit($str)); 
+//		$str = strtolower(rus2translit($str)); 
+		$str = rus2translit($str);
 		for ($i = 0; $i < strlen($str); $i++) 
 		{ 
 			$s = $str[$i]; 
@@ -70,28 +66,32 @@
 
 		$str_result = trim($str_result);
 
-		$str_result .= "_";
-		
-		$str_year = "";
-		for ($i = 0; $i < strlen($year); $i++) 
-		{ 
-			$s = $year[$i]; 
-			if (in_array($s, $symbols)) $str_year.= $s;
-		} 
-
-		$str_result .= trim($str_year);
-
-		while ( strpos($str_result,'  ')!==false )
+		if($year != "")
 		{
-		   $str_result = str_replace('  ',' ',$str_result);
-		}; 
+			$str_result .= "_";
+		
+			$str_year = "";
+			for ($i = 0; $i < strlen($year); $i++) 
+			{ 
+				$s = $year[$i]; 
+				if (in_array($s, $symbols)) $str_year.= $s;
+			} 
+
+			$str_result .= trim($str_year);
+
+			while ( strpos($str_result,'  ')!==false )
+			{
+				$str_result = str_replace('  ',' ',$str_result);
+			}; 
 
 
-		$str_result = str_replace(' ', '_', $str_result); 
-
+			$str_result = str_replace(' ', '_', $str_result);
+		}
 
 		return $str_result; 
 	}
+
+
 
   function errorInJson($msg)
   {

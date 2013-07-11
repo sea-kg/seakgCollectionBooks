@@ -1,5 +1,6 @@
 <?
 	include_once "whc_base.php";
+	include_once "../config.php";
 	
 	class whc_security
 	{
@@ -12,10 +13,34 @@
 					$email = $_POST['email'];
 					$password = $_POST['password'];
 					
-					if($this->checkUser($email, $password))
-					{
+					$privateKey = $this->generatePrivateKey(
+						$email, $password
+					);
+
+					if($this->checkUser($privateKey))
+					{ 
+						$query = "
+							select 
+								id, name, conf 
+							from 
+								whc_users 
+							where 
+								private_key = '$privateKey'";
+									
+						$result = mysql_query( $query );
+						$blob = mysql_result($result, 0, 'conf');
+						$username = mysql_result($result, 0, 'name');
+						$id = mysql_result($result, 0, 'id');
+
 						$_SESSION['user'] = array();
-						$_SESSION['user']['username']	= $email;
+						$_SESSION['user']['username']	= $username;
+						$_SESSION['user']['id']	= $id;
+						
+						if(strlen($blob) != 0 )
+						{
+							$str1 = base64_decode($blob);
+							$_SESSION['user']['conf'] = json_decode($str1);
+						};
 					};
 				}
 			}
@@ -27,14 +52,36 @@
 				unset($_SESSION['user']);
 		}
 
-		function checkUser($email, $password)
+		function checkUser($privateKey)
 		{
-			return true;
+			$query = "select * from whc_users where private_key='$privateKey'";
+			$result = mysql_query( $query );
+			//  or die("incorrect sql query");
+			$rows = mysql_num_rows($result);
+			return ($rows == 1);
+		}
+		
+		function checkCurrentUser($privateKey)
+		{
+			if(!$this->isLogged())
+				return false;
+			$id = $_SESSION['user']['id'];
+			
+			$query = "select * from whc_users where private_key='$privateKey' and id = $id";
+			$result = mysql_query( $query );
+			//  or die("incorrect sql query");
+			$rows = mysql_num_rows($result);
+			return ($rows == 1);
 		}
 		
 		function isLogged()
 		{
 			return (isset($_SESSION['user']));
+		}
+		
+		function generatePrivateKey($email, $password)
+		{
+			return md5($password.strtoupper($email));
 		}
 		
 		function echo_form_login()
