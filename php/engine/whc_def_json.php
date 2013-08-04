@@ -12,7 +12,7 @@
 			$arr = $json['objs'];
 			foreach ($arr as $name => $obj) {
 				echo "$name<br>";
-				$arr_objs[$name] = new whc_obj($obj);
+				$arr_objs[$name] = new whc_obj($name, $obj);
 			};
 		};
 		echo "end<br>";

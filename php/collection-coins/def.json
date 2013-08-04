@@ -2,6 +2,11 @@
 	"objs" :
 	{
 		"coin" : {
+			"caption" : {
+				"English" : "Coin",
+				"Deutsch" : "Münze",
+				"Русский" : "Монета"
+			},
 			"fields" : {
 				"id" : {
 					"type" : "int",
@@ -10,9 +15,9 @@
 						"column" : "id"
 					},
 					"caption" : {
-						"en" : "id",
-						"de" : "id",
-						"ru" : "id"
+						"English" : "id",
+						"Deutsch" : "id",
+						"Русский" : "id"
 					}
 				},
 				"start_day" : {
@@ -23,9 +28,9 @@
 						"column" : "start_day"
 					},
 					"caption" : {
-						"en" : "Start day",
-						"de" : "Starten tag",
-						"ru" : "Дата выпуска"
+						"English" : "Start day",
+						"Deutsch" : "Starten tag",
+						"Русский" : "Дата выпуска"
 					}
 				},
 				"serie" : {
@@ -36,9 +41,9 @@
 						"column" : "serie"
 					},
 					"caption" : {
-						"en" : "Serie",
-						"de" : "-",
-						"ru" : "Серия"
+						"English" : "Serie",
+						"Deutsch" : "-",
+						"Русский" : "Серия"
 					}
 				},
 				"name" : {
@@ -49,9 +54,9 @@
 						"column" : "name"
 					},
 					"caption" : {
-						"en" : "Name",
-						"de" : "-",
-						"ru" : "Название"
+						"English" : "Name",
+						"Deutsch" : "-",
+						"Русский" : "Название"
 					}
 				},
 				"nominal" : {
@@ -62,9 +67,9 @@
 						"column" : "nominal"
 					},
 					"caption" : {
-						"en" : "Nominal",
-						"de" : "-",
-						"ru" : "Номинал"
+						"English" : "Nominal",
+						"Deutsch" : "-",
+						"Русский" : "Номинал"
 					}
 				},
 				"country" : {
@@ -75,9 +80,9 @@
 						"column" : "country"
 					},
 					"caption" : {
-						"en" : "Country",
-						"de" : "-",
-						"ru" : "Страна"
+						"English" : "Country",
+						"Deutsch" : "-",
+						"Русский" : "Страна"
 					}
 				},
 				"mon_dvor" : {
@@ -88,9 +93,9 @@
 						"column" : "mon_dvor"
 					},
 					"caption" : {
-						"en" : "Monetnyi dvor",
-						"de" : "-",
-						"ru" : "Монетный двор"
+						"English" : "Monetnyi dvor",
+						"Deutsch" : "-",
+						"Русский" : "Монетный двор"
 					}
 				},
 				"avers" : {
@@ -100,9 +105,9 @@
 						"column" : "avers"
 					},
 					"caption" : {
-						"en" : "Avers",
-						"de" : "-",
-						"ru" : "Аверс"
+						"English" : "Avers",
+						"Deutsch" : "-",
+						"Русский" : "Аверс"
 					}
 				},
 				"revers" : {
@@ -112,9 +117,9 @@
 						"column" : "revers"
 					},
 					"caption" : {
-						"en" : "Revers",
-						"de" : "-",
-						"ru" : "Реверс"
+						"English" : "Revers",
+						"Deutsch" : "-",
+						"Русский" : "Реверс"
 					}
 				},
 				"gurt" : {
@@ -124,9 +129,9 @@
 						"column" : "gurt"
 					},
 					"caption" : {
-						"en" : "Gurt",
-						"de" : "-",
-						"ru" : "Гурт"
+						"English" : "Gurt",
+						"Deutsch" : "-",
+						"Русский" : "Гурт"
 					}
 				},
 				"material" : {
@@ -137,9 +142,9 @@
 						"column" : "material"
 					},
 					"caption" : {
-						"en" : "Material",
-						"de" : "-",
-						"ru" : "Материал"
+						"English" : "Material",
+						"Deutsch" : "-",
+						"Русский" : "Материал"
 					}
 				},
 				"tirag" : {
@@ -150,9 +155,9 @@
 						"column" : "tirag"
 					},
 					"caption" : {
-						"en" : "Tirag",
-						"de" : "-",
-						"ru" : "Тираж"
+						"English" : "Tirag",
+						"Deutsch" : "-",
+						"Русский" : "Тираж"
 					}
 				},
 				"cat_number" : {
@@ -163,9 +168,9 @@
 						"column" : "cat_number"
 					},
 					"caption" : {
-						"en" : "Catalog number",
-						"de" : "-",
-						"ru" : "Каталожный номер"
+						"English" : "Catalog number",
+						"Deutsch" : "-",
+						"Русский" : "Каталожный номер"
 					}
 				},
 				"graver" : {
@@ -176,9 +181,9 @@
 						"column" : "graver"
 					},
 					"caption" : {
-						"en" : "Graver, Creater",
-						"de" : "-",
-						"ru" : "Гравер, художник"
+						"English" : "Graver, Creater",
+						"Deutsch" : "-",
+						"Русский" : "Гравер, художник"
 					}
 				},
 				"kachestvo" : {
@@ -189,9 +194,9 @@
 						"column" : "kachestvo"
 					},
 					"caption" : {
-						"en" : "Kachestvo",
-						"de" : "-",
-						"ru" : "Качество"
+						"English" : "Kachestvo",
+						"Deutsch" : "-",
+						"Русский" : "Качество"
 					}
 				},
 				"descr" : {
@@ -201,9 +206,9 @@
 						"column" : "descr"
 					},
 					"caption" : {
-						"en" : "Description",
-						"de" : "-",
-						"ru" : "Описание"
+						"English" : "Description",
+						"Deutsch" : "-",
+						"Русский" : "Описание"
 					}
 				},
 				"price" : {
@@ -214,9 +219,9 @@
 						"column" : "price"
 					},
 					"caption" : {
-						"en" : "Price",
-						"de" : "-",
-						"ru" : "Цена"
+						"English" : "Price",
+						"Deutsch" : "-",
+						"Русский" : "Цена"
 					}
 				}
 			} 

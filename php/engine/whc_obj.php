@@ -1,13 +1,15 @@
 <?
 	include_once "../engine/whc_base.php";
 	include_once "../engine/whc_security.php";
+	include_once "../engine/whc_localization.php";
 
 	class whc_obj
 	{
 		var $m_obj;
-		function whc_obj($obj)
+		function whc_obj($name, $obj)
 		{
 			$this->m_obj = $obj;
+			$this->m_name = $name;
 		}
 		
 		function createSQL($find, $count = false)
@@ -40,7 +42,15 @@
 
 		function getCaption()
 		{
-			return COINS;
+			// 
+			$obj = $this->m_obj;
+			$lang = getCurrentLanguage();
+			echo "{$lang}";
+			
+			if(isset($obj['caption'][$lang]))
+				return $obj['caption'][$lang];
+			return "Undefined";
+			
 		}
 
 		function getTableName()
@@ -50,7 +60,7 @@
 		 
 		function getName()
 		{
-			return "coins";
+			return $this->m_name;
 		}
 		
 		function getColumns()

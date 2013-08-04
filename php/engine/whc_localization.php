@@ -61,4 +61,11 @@
 		if(isset($_POST['comeback']))
 			refreshTo($_POST['comeback']);
 	};
+	
+	function getCurrentLanguage()
+	{
+		if(isset($_SESSION['lang']))
+			return $_SESSION['lang'];
+		return "English";
+	}
 ?>
