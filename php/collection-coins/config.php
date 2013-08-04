@@ -20,15 +20,8 @@
 	{
 		$objs = array();
 		
-		
-		$json = json_decode(file_get_contents("def.json"));
-		
-		
-		// include_once "coin.php";
-		// $coin = new coin();
-		$objs = whc_create_objs( $json);
-		
-		// $objs[$coin->getName()] = $coin;
-		return $objs;
+		$content = file_get_contents("def.json");
+		echo "<hr>";
+		return whc_read_def_json($content);
 	};
 ?>

@@ -1,5 +1,6 @@
 <?
 	include_once "engine/whc_base.php";
+	include_once "engine/whc_def_json.php";
 
 	// configure list of collections
 	$config = array();

@@ -1,10 +1,15 @@
 <?
 	include_once "../engine/whc_base.php";
 	include_once "../engine/whc_security.php";
-	include_once "../config.php";
 
-	class coin
-	{          
+	class whc_obj
+	{
+		var $m_obj;
+		function whc_obj($obj)
+		{
+			$this->m_obj = $obj;
+		}
+		
 		function createSQL($find, $count = false)
 		{
 			$fields = "*";

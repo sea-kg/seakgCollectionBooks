@@ -1,14 +1,3 @@
-<html>
-<head>
-<title> website for home collections </title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf8">
-
-</head>
-
-<body>
-<center>
-website for home collections: <br><br>
-
 <?
 	include_once "config.php";
 	$arr = $config['collection'];
