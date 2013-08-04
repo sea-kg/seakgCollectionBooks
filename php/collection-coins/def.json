@@ -1,0 +1,225 @@
+{
+	"doctypes" :
+	{
+		"coin" : {
+			"fields" : {
+				"id" : {
+					"type" : "int",
+					"database" : {
+						"table" : "whc_coin",
+						"column" : "id"
+					},
+					"caption" : {
+						"en" : "id",
+						"de" : "id",
+						"ru" : "id"
+					}
+				},
+				"start_day" : {
+					"type" : "string",
+					"length" : "128",
+					"database" : {
+						"table" : "whc_coin",
+						"column" : "start_day"
+					},
+					"caption" : {
+						"en" : "Start day",
+						"de" : "Starten tag",
+						"ru" : "Дата выпуска"
+					}
+				},
+				"serie" : {
+					"type" : "string",
+					"length" : "128",
+					"database" : {
+						"table" : "whc_coin",
+						"column" : "serie"
+					},
+					"caption" : {
+						"en" : "Serie",
+						"de" : "-",
+						"ru" : "Серия"
+					}
+				},
+				"name" : {
+					"type" : "string",
+					"length" : "128",
+					"database" : {
+						"table" : "whc_coin",
+						"column" : "name"
+					},
+					"caption" : {
+						"en" : "Name",
+						"de" : "-",
+						"ru" : "Название"
+					}
+				},
+				"nominal" : {
+					"type" : "string",
+					"length" : "128",
+					"database" : {
+						"table" : "whc_coin",
+						"column" : "nominal"
+					},
+					"caption" : {
+						"en" : "Nominal",
+						"de" : "-",
+						"ru" : "Номинал"
+					}
+				},
+				"country" : {
+					"type" : "string",
+					"length" : "128",
+					"database" : {
+						"table" : "whc_coin",
+						"column" : "country"
+					},
+					"caption" : {
+						"en" : "Country",
+						"de" : "-",
+						"ru" : "Страна"
+					}
+				},
+				"mon_dvor" : {
+					"type" : "string",
+					"length" : "128",
+					"database" : {
+						"table" : "whc_coin",
+						"column" : "mon_dvor"
+					},
+					"caption" : {
+						"en" : "Monetnyi dvor",
+						"de" : "-",
+						"ru" : "Монетный двор"
+					}
+				},
+				"avers" : {
+					"type" : "text",
+					"database" : {
+						"table" : "whc_coin",
+						"column" : "avers"
+					},
+					"caption" : {
+						"en" : "Avers",
+						"de" : "-",
+						"ru" : "Аверс"
+					}
+				},
+				"revers" : {
+					"type" : "text",
+					"database" : {
+						"table" : "whc_coin",
+						"column" : "revers"
+					},
+					"caption" : {
+						"en" : "Revers",
+						"de" : "-",
+						"ru" : "Реверс"
+					}
+				},
+				"gurt" : {
+					"type" : "text",
+					"database" : {
+						"table" : "whc_coin",
+						"column" : "gurt"
+					},
+					"caption" : {
+						"en" : "Gurt",
+						"de" : "-",
+						"ru" : "Гурт"
+					}
+				},
+				"material" : {
+					"type" : "string",
+					"length" : "128",
+					"database" : {
+						"table" : "whc_coin",
+						"column" : "material"
+					},
+					"caption" : {
+						"en" : "Material",
+						"de" : "-",
+						"ru" : "Материал"
+					}
+				},
+				"tirag" : {
+					"type" : "string",
+					"length" : "128",
+					"database" : {
+						"table" : "whc_coin",
+						"column" : "tirag"
+					},
+					"caption" : {
+						"en" : "Tirag",
+						"de" : "-",
+						"ru" : "Тираж"
+					}
+				},
+				"cat_number" : {
+					"type" : "string",
+					"length" : "128",
+					"database" : {
+						"table" : "whc_coin",
+						"column" : "cat_number"
+					},
+					"caption" : {
+						"en" : "Catalog number",
+						"de" : "-",
+						"ru" : "Каталожный номер"
+					}
+				},
+				"graver" : {
+					"type" : "string",
+					"length" : "256",
+					"database" : {
+						"table" : "whc_coin",
+						"column" : "graver"
+					},
+					"caption" : {
+						"en" : "Graver, Creater",
+						"de" : "-",
+						"ru" : "Гравер, художник"
+					}
+				},
+				"kachestvo" : {
+					"type" : "string",
+					"length" : "128",
+					"database" : {
+						"table" : "whc_coin",
+						"column" : "kachestvo"
+					},
+					"caption" : {
+						"en" : "Kachestvo",
+						"de" : "-",
+						"ru" : "Качество"
+					}
+				},
+				"descr" : {
+					"type" : "text",
+					"database" : {
+						"table" : "whc_coin",
+						"column" : "descr"
+					},
+					"caption" : {
+						"en" : "Description",
+						"de" : "-",
+						"ru" : "Описание"
+					}
+				},
+				"price" : {
+					"type" : "string",
+					"length" : "256",
+					"database" : {
+						"table" : "whc_coin",
+						"column" : "price"
+					},
+					"caption" : {
+						"en" : "Price",
+						"de" : "-",
+						"ru" : "Цена"
+					}
+				}
+			} 
+		}
+	}
+}

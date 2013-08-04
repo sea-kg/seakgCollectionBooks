@@ -3,6 +3,7 @@
 
 	// configure list of collections
 	$config = array();
+	$config['collection']["Coins"] = "collection-coins/index.php";
 	$config['collection']["My Films New"] = "collection-films2/index.php";
 	$config['collection']["My Books"] = "collection-book/index.php";
 	$config['collection']["My Films Old"] = "collection-films/index.php";
